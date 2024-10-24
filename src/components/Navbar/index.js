@@ -1,9 +1,11 @@
-import Link from "next/link";
+import Link from 'next/link';
 
-import AuthButtons from "./AuthButtons";
-import NavLink from "./NavLink";
+import AuthButtons from './AuthButtons';
+import NavLink from './NavLink';
+import { getUser } from '@/lib/token';
 
 async function Navbar() {
+  const user = await getUser();
 
   return (
     <nav className="bg-gray-800">
@@ -11,22 +13,14 @@ async function Navbar() {
         <div className="flex items-center justify-between h-16">
           <div className="flex items-center">
             <Link href="/">
-              <span className="font-semibold text-xl text-white">
-                Our Notes
-              </span>
+              <span className="font-semibold text-xl text-white">Our Notes</span>
             </Link>
           </div>
           <div className="block">
             <div className="ml-10 flex items-baseline space-x-4">
-              <NavLink href="/">
-                Home
-              </NavLink>
-              <NavLink href="/notes">
-                Notes
-              </NavLink>
-              <NavLink href="/users">
-                Users
-              </NavLink>
+              <NavLink href="/">Home</NavLink>
+              <NavLink href="/notes">Notes</NavLink>
+              {user && <NavLink href="/users">Users</NavLink>}
               <AuthButtons />
             </div>
           </div>
@@ -34,6 +28,6 @@ async function Navbar() {
       </div>
     </nav>
   );
-};
+}
 
 export default Navbar;
